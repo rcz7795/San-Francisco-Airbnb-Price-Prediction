@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>San Francisco Airbnb Rental Price Prediction</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(window).load(function() {
+              console.log("document loaded");
+
+              $.get("{{ url_for('get_host_response_time_names') }}",
+                function (data, status) {
+                  console.log("got response for get_host_response_time_names request");
+                  console.log(data)
+                  if(data) {
+                      var host_response_time = data.host_response_time;
+                      console.log(host_response_time)
+                      var uiHostResponseTime = document.getElementById("uiHostResponseTime");
+                      $('#uiHostResponseTime').empty();
+                      for(var i in host_response_time) {
+                          var opt = new Option(host_response_time[i]);
+                          $('#uiHostResponseTime').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_neighbourhood_names') }}",
+                function (data, status) {
+                  console.log("got response for get_neighbourhood_names request");
+                  console.log(data)
+                  if(data) {
+                      var neighbourhood = data.neighbourhood;
+                      console.log(neighbourhood)
+                      var uiNeighbourhood = document.getElementById("uiNeighbourhood");
+                      $('#uiNeighbourhood').empty();
+                      for(var i in neighbourhood) {
+                          var opt = new Option(neighbourhood[i]);
+                          $('#uiNeighbourhood').append(opt);
+                      }
+                  }
+              });
+
+
+              $.get("{{ url_for('get_property_type_names') }}",
+                function (data, status) {
+                  console.log("got response for get_property_type_names request");
+                  console.log(data)
+                  if(data) {
+                      var property_type = data.property_type;
+                      console.log(property_type)
+                      var uiPropertyType = document.getElementById("uiPropertyType");
+                      $('#uiPropertyType').empty();
+                      for(var i in property_type) {
+                          var opt = new Option(property_type[i]);
+                          $('#uiPropertyType').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_room_type_names') }}",
+                function (data, status) {
+                  console.log("got response for get_room_type_names request");
+                  console.log(data)
+                  if(data) {
+                      var room_type = data.room_type;
+                      var uiRoomType = document.getElementById("uiRoomType");
+                      $('#uiRoomType').empty();
+                      for(var i in room_type) {
+                          var opt = new Option(room_type[i]);
+                          $('#uiRoomType').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_cancellation_policy_names') }}",
+                function (data, status) {
+                  console.log("got response for get_cancellation_policy_names request");
+                  if(data) {
+                      var cancellation_policy = data.cancellation_policy;
+                      var uiCancellationPolicy = document.getElementById("uiCancellationPolicy");
+                      $('#uiCancellationPolicy').empty();
+                      for(var i in cancellation_policy) {
+                          var opt = new Option(cancellation_policy[i]);
+                          $('#uiCancellationPolicy').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_boolean_names') }}",
+                function (data, status) {
+                  console.log("got response for get_boolean request");
+                  if(data) {
+                      var boolean = data.boolean;
+                      var uiHostIsSuperhost = document.getElementById("uiHostIsSuperhost");
+                      $('#uiHostIsSuperhost').empty();
+                      for(var i in boolean) {
+                          var opt = new Option(boolean[i]);
+                          $('#uiHostIsSuperhost').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_boolean_names') }}",
+                function (data, status) {
+                  console.log("got response for get_boolean request");
+                  if(data) {
+                      var boolean = data.boolean;
+                      var uiHostIdentityVerified = document.getElementById("uiHostIdentityVerified");
+                      $('#uiHostIdentityVerified').empty();
+                      for(var i in boolean) {
+                          var opt = new Option(boolean[i]);
+                          $('#uiHostIdentityVerified').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_boolean_names') }}",
+                function (data, status) {
+                  console.log("got response for get_boolean request");
+                  if(data) {
+                      var boolean = data.boolean;
+                      var uiInstantBookable = document.getElementById("uiInstantBookable");
+                      $('#uiInstantBookable').empty();
+                      for(var i in boolean) {
+                          var opt = new Option(boolean[i]);
+                          $('#uiInstantBookable').append(opt);
+                      }
+                  }
+              });
+
+              $.get("{{ url_for('get_boolean_names') }}",
+                function (data, status) {
+                  console.log("got response for get_boolean request");
+                  if(data) {
+                      var boolean = data.boolean;
+                      var uiHostIsLocal = document.getElementById("uiHostIsLocal");
+                      $('#uiHostIsLocal').empty();
+                      for(var i in boolean) {
+                          var opt = new Option(boolean[i]);
+                          $('#uiHostIsLocal').append(opt);
+                      }
+                  }
+              });
+
+
+            });
+        </script>
+
+
+        <!-- BootStrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- css -->
+        <style>
+            body {
+                background-size: 100% 135%;
+                background-color:  #F5B7B1;
+                text-align: center;
+            }
+
+            .navbar {
+                background-color: #000000;
+            }
+
+            form label {
+                font-weight:bold
+            }
+
+            a {
+                color: #f7ff08;
+                text-align: center;
+            }
+
+            a:hover {
+                color: #ff0808;
+              }
+
+            .icon-bar {
+              position: fixed;
+              top: 50%;
+              -webkit-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+            }
+
+            .icon-bar a{
+              display: block;
+              text-align: center;
+              padding: 16px;
+              transition: all 0.3s ease;
+              color: white;
+              font-size: 20px;
+            }
+
+            .icon-bar a:hover {
+              background-color: #000;
+            }
+            /* Footer */
+            .footer{
+                background-color: #E9E9E9;
+                color: #000000;
+                padding: 0px;
+                text-align: center;
+            }
+
+            .contact-icon{
+                color: #000000;
+                padding: 0px;
+            }
+
+            .contact-icon:hover{
+                color: #a6a19a;
+            }
+
+            .footer-description{
+                margin: 0;
+                font-size: 12px;
+                font-weight: 100;
+            }
+
+    	</style>
+
+
+    </head>
+
+    <body>
+            <!-- As a heading -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header"></div>
+            </div>
+        </nav>
+
+        <!-- Website Title -->
+        <div class="jumbotron text-center">
+            <h1>San Francisco Airbnb Rental Price Prediction App</h1>
+            <div class='description'>
+                <p>A Machine Learning Web App, Built with Flask, Deployed using Heroku.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <form action="/predict" method="POST">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Host Response Rate Input -->
+                            <label>Enter Host Response Rate (0-1):</label>
+                            <input type="text" name="host_response_rate_pct" class="form-control" placeholder="Eg: 0.89" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Superhost Dropdown -->
+                            <label>Is Host Superhost?</label>
+                            <select class="form-control" name="host_is_superhost" id="uiHostIsSuperhost" required></select><br>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Host identity verified Dropdown -->
+                            <label>Is Host identity verified?</label>
+                            <select class="form-control" name="host_identity_verified" id="uiHostIdentityVerified" required></select><br>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Accommodates Input -->
+                            <label>Enter Accommodates:</label>
+                            <input type="text" name="accommodates" class="form-control" placeholder="Eg: 2" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Bathrooms Input -->
+                            <label>Enter Bathrooms:</label>
+                            <input type="text" name="bathrooms" class="form-control" placeholder="Eg: 1" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- Bedrooms Input -->
+                            <label>Enter Bedrooms:</label>
+                            <input type="text" name="bedrooms" class="form-control" placeholder="Eg: 2" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- security_deposit Input -->
+                            <label>Enter Security Deposit (in $):</label>
+                            <input type="text" name="security_deposit" class="form-control" placeholder="Eg: 25" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- cleaning_fee Input -->
+                            <label>Enter Cleaning fees (in $):</label>
+                            <input type="text" name="cleaning_fee" class="form-control" placeholder="Eg: 20" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- guests_included Input -->
+                            <label>Enter No. of guests:</label>
+                            <input type="text" name="guests_included" class="form-control" placeholder="Eg: 2" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- extra_people Input -->
+                            <label>Enter cost for extra people (in $):</label>
+                            <input type="text" name="extra_people" class="form-control" placeholder="Eg: 25" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- min_nights Input -->
+                            <label>Enter min. nights:</label>
+                            <input type="text" name="min_nights" class="form-control" placeholder="Eg: 2" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- max_nights Input -->
+                            <label>Enter max. nights:</label>
+                            <input type="text" name="max_nights" class="form-control" placeholder="Eg: 7" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- number_of_reviews Input -->
+                            <label>Enter No. of Reviews:</label>
+                            <input type="text" name="number_of_reviews" class="form-control" placeholder="Eg: 500" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- instant_bookable Dropdown -->
+                            <label>Is Instant Bookable?</label>
+                            <select class="form-control" name="instant_bookable" id="uiInstantBookable" required></select><br>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- host_listing_count Input -->
+                            <label>Enter Host Listing Count:</label>
+                            <input type="text" name="host_listing_count" class="form-control" placeholder="Eg: 10" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- listing_duration Input -->
+                            <label>Enter Listing Duration:</label>
+                            <input type="text" name="listing_duration" class="form-control" placeholder="Eg: 1000" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- calculated_reviews_per_month Input -->
+                            <label>Enter Reviews per Month:</label>
+                            <input type="text" name="calculated_reviews_per_month" class="form-control" placeholder="Eg: 20" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- review_score Input -->
+                            <label>Enter Review Score (0-10):</label>
+                            <input type="text" name="review_score" class="form-control" placeholder="Eg: 8" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- host_is_local Dropdown -->
+                            <label>Is host local?</label>
+                            <select class="form-control" name="host_is_local" id="uiHostIsLocal" required></select><br>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- host_since_years Input -->
+                            <label>Enter hosting year:</label>
+                            <input type="text" name="host_since_years" class="form-control" placeholder="Eg: 2010" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- amenities_count Input -->
+                            <label>Enter count of ameneties:</label>
+                            <input type="text" name="amenities_count" class="form-control" placeholder="Eg: 20" required/>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- host_response_time Dropdown -->
+                            <label>Select Host Response Time:</label>
+                            <select class="form-control" name="host_response_time" id="uiHostResponseTime" required></select><br>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <!-- neighbourhood Input -->
+                            <label>Select Neighbourhood:</label>
+                            <select class="form-control" name="neighbourhood" id="uiNeighbourhood" required></select><br>
+                          </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- property_type Input -->
+                            <label>Select Property Type:</label>
+                            <select class="form-control" name="property_type" id="uiPropertyType" required></select><br>
+						</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- room_type Input -->
+                            <label>Select Room Type:</label>
+                            <select class="form-control" name="room_type" id="uiRoomType" required></select><br>
+						</div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <!-- cancellation_policy Input -->
+                            <label>Select Cancellation Policy:</label>
+                            <select class="form-control" name="cancellation_policy" id="uiCancellationPolicy" required></select><br>
+						</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Predict Airbnb Price</button>
+
+            </form>
+            <br><br>
+
+            <h3>{{ prediction_text }}</h3>
+
+        </div>
+        <!-- Footer -->
+       <div class='footer'>
+           <div class="contact">
+               <a target="_blank" href="https://github.com/rishabh7795"><i class="fab fa-github fa-lg contact-icon"></i></a>
+               <a target="_blank" href="https://www.linkedin.com/in/rishabh7795"><i class="fab fa-linkedin fa-lg contact-icon"></i></a>
+           </div>
+           <p class='footer-description'>© Rishabh Choudhary 2020</p>
+       </div>
+
+    </body>
+</html>
